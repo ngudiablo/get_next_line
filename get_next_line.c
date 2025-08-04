@@ -65,27 +65,30 @@ static char	*clean_stash(char *stash)
 
 static char	*read_and_append(int fd, char *stash)
 {
-	char	*buffer;
-	ssize_t	bytes_read;
+    char	*buffer;
+    ssize_t	bytes_read;
+    char	*tmp;
 
-	buffer = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
-	if (!buffer)
-		return (NULL);
-	bytes_read = 1;
-	while (!ft_strchr(stash, '\n') && bytes_read > 0)
-	{
-		bytes_read = read(fd, buffer, BUFFER_SIZE);
-		if (bytes_read < 0)
-		{
-			free(buffer);
-			free(stash);
-			return (NULL);
-		}
-		buffer[bytes_read] = '\0';
-		stash = ft_strjoin(stash, buffer);
-	}
-	free(buffer);
-	return (stash);
+    buffer = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
+    if (!buffer)
+        return (NULL);
+    bytes_read = 1;
+    while (!ft_strchr(stash, '\n') && bytes_read > 0)
+    {
+        bytes_read = read(fd, buffer, BUFFER_SIZE);
+        if (bytes_read < 0)
+        {
+            free(buffer);
+            free(stash);
+            return (NULL);
+        }
+        buffer[bytes_read] = '\0';
+        tmp = stash;
+        stash = ft_strjoin(stash, buffer);
+        free(tmp);
+    }
+    free(buffer);
+    return (stash);
 }
 
 char	*get_next_line(int fd)
