@@ -1,8 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ngualtie <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/04 10:47:15 by ngualtie          #+#    #+#             */
+/*   Updated: 2025/08/04 10:47:17 by ngualtie         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "get_next_line.h"
 
 size_t	ft_strlen(const char *s)
 {
-	size_t	i = 0;
+	size_t	i;
+
+	i = 0;
 	while (s && s[i])
 		i++;
 	return (i);
@@ -10,53 +24,79 @@ size_t	ft_strlen(const char *s)
 
 char	*ft_strchr(const char *s, int c)
 {
+	size_t	a;
+
 	if (!s)
 		return (NULL);
-	while (*s)
+	a = 0;
+	while (s[a])
 	{
-		if (*s == (char)c)
-			return ((char *)s);
-		s++;
+		if (s[a] == (char) c)
+			break ;
+		a++;
 	}
-	if ((char)c == '\0')
-		return ((char *)s);
+	if (s[a] == (char) c)
+		return ((char *) s + a);
 	return (NULL);
 }
 
 char	*ft_strdup(const char *s1)
 {
-	size_t	len = ft_strlen(s1);
-	char	*copy = malloc(len + 1);
-	if (!copy)
+	char	*new;
+	size_t	a;
+
+	new = malloc(sizeof(char) * (ft_strlen(s1) + 1));
+	if (!new)
 		return (NULL);
-	for (size_t i = 0; i < len; i++)
-		copy[i] = s1[i];
-	copy[len] = '\0';
-	return (copy);
+	a = 0;
+	while (s1[a])
+	{
+		new[a] = s1[a];
+		a++;
+	}
+	new[a] = '\0';
+	return (new);
 }
 
-char	*ft_strjoin(char *s1, char *s2)
+char	*ft_strjoin(char const *s1, char const *s2)
 {
-	size_t	len1 = ft_strlen(s1);
-	size_t	len2 = ft_strlen(s2);
-	char	*res = malloc(len1 + len2 + 1);
-	if (!res)
+	char	*new;
+	size_t	a;
+	size_t	b;
+	
+	if (!s1 || !s2)
 		return (NULL);
-	for (size_t i = 0; i < len1; i++)
-		res[i] = s1[i];
-	for (size_t i = 0; i < len2; i++)
-		res[len1 + i] = s2[i];
-	res[len1 + len2] = '\0';
-	free(s1);
-	return (res);
+	new = malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
+	if (!new)
+		return (NULL);
+	a = 0;
+	while (s1[a])
+	{
+		new[a] = s1[a];
+		a++;
+	}
+	b = 0;
+	while (s2[b])
+	{
+		new[a + b] = s2[b];
+		b++;
+	}
+	new[a + b] = '\0';
+	return (new);
 }
 
 void	*ft_calloc(size_t count, size_t size)
 {
-	void	*ptr = malloc(count * size);
+	void	*ptr;
+	size_t	i;
+
+	if (size != 0 && count > ((size_t)-1 / size))
+		return (NULL);
+	ptr = malloc(count * size);
 	if (!ptr)
 		return (NULL);
-	for (size_t i = 0; i < count * size; i++)
-		((unsigned char *)ptr)[i] = 0;
+	i = 0;
+	while (i < count * size)
+		((unsigned char *)ptr)[i++] = 0;
 	return (ptr);
 }

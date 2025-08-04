@@ -1,10 +1,23 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ngualtie <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/04 10:46:56 by ngualtie          #+#    #+#             */
+/*   Updated: 2025/08/04 10:46:58 by ngualtie         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "get_next_line.h"
 
 static char	*extract_line(char *stash)
 {
-	size_t	i = 0;
+	size_t	i;
 	char	*line;
 
+	i = 0;
 	if (!stash[i])
 		return (NULL);
 	while (stash[i] && stash[i] != '\n')
@@ -26,10 +39,12 @@ static char	*extract_line(char *stash)
 
 static char	*clean_stash(char *stash)
 {
-	size_t	i = 0;
-	size_t	j = 0;
+	size_t	i;
+	size_t	j;
 	char	*new_stash;
 
+	i = 0;
+	j = 0;
 	while (stash[i] && stash[i] != '\n')
 		i++;
 	if (!stash[i])
